@@ -14,7 +14,6 @@ import android.view.MenuItem;
 
 import com.example.metaphizik.design.adapter.TabsFragmentAdapter;
 import com.example.metaphizik.design.dto.RemindDTO;
-import com.example.metaphizik.design.fragments.HistoryFragment;
 
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
@@ -22,11 +21,9 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.R.id.list;
-
 public class MainActivity extends AppCompatActivity {
 
-    private static final int LAYOUT = R.layout.activity_main;
+    private static final int MAIN_LAYOUT = R.layout.activity_main;
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private ViewPager viewPager;
@@ -36,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.ThemeDefault);
         super.onCreate(savedInstanceState);
-        setContentView(LAYOUT);
+        setContentView(MAIN_LAYOUT);
 
         initToolbar();
         initNavigationView();
@@ -66,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
     }
 
+    //идентификация навигационной шторки,
+    //создание слушателя нажатий, который нчигео не выводит,
+    //исоздание тогла
     private void initNavigationView() {
         drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.view_navigation_open, R.string.view_navigation_close);

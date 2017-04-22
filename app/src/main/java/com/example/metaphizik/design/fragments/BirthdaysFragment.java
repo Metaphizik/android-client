@@ -17,9 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BirthdaysFragment extends AbstractTabFragment{
+
     private static final int LAYOUT = R.layout.fragment_history;
 
     public static BirthdaysFragment getInstance(Context context){
+        //аргуметы которые нужны для создания фрагмента
         Bundle args = new Bundle();
         BirthdaysFragment fragment = new BirthdaysFragment();
         fragment.setArguments(args);
@@ -41,7 +43,9 @@ public class BirthdaysFragment extends AbstractTabFragment{
         return view;
     }
 
-    private List<RemindDTO> createMockRemindListData() {                //заглушка даты. ибо нет сервера откуда она прийдет(дата)
+    //временная функция=заглушка заполнения recyclerView пустыми remindDTO'шками
+
+    private List<RemindDTO> createMockRemindListData() {
         List<RemindDTO> data = new ArrayList<>();
         data.add(new RemindDTO("Item 1"));
         data.add(new RemindDTO("Item 2"));
