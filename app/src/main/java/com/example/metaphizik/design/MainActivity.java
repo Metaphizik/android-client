@@ -1,24 +1,33 @@
 package com.example.metaphizik.design;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+
 import com.example.metaphizik.design.adapter.TabsFragmentAdapter;
+import com.example.metaphizik.design.auth.EmailPasswordActivity;
 import com.example.metaphizik.design.dto.RemindDTO;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.metaphizik.design.R.id.navigationView;
+
 
 public class MainActivity extends AppCompatActivity{
 
@@ -27,22 +36,17 @@ public class MainActivity extends AppCompatActivity{
     private DrawerLayout drawerLayout;
     private ViewPager viewPager;
     private TabsFragmentAdapter adapter;
+    private TextView mail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.ThemeDefault);
         super.onCreate(savedInstanceState);
         setContentView(MAIN_LAYOUT);
-
         initToolbar();
         initNavigationView();
         initTabs();
-
-        //потяни-обновлялка
-
-
-
-        }
+}
 
     private void initToolbar() {
         toolbar = (Toolbar)findViewById(R.id.toolbar);
@@ -61,7 +65,7 @@ public class MainActivity extends AppCompatActivity{
         adapter = new TabsFragmentAdapter(this, getSupportFragmentManager());
         viewPager.setAdapter(adapter);
 
-        new RemindMeTask().execute();
+        //new RemindMeTask().execute();
 
         TabLayout tabLayout = (TabLayout)findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
@@ -78,18 +82,35 @@ public class MainActivity extends AppCompatActivity{
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
 
+        //для установки почты в navigation_header
+        View v = navigationView.getHeaderView(0);
+        mail = (TextView) v.findViewById(R.id.MAIL);
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 drawerLayout.closeDrawers();
                 switch (item.getItemId()){
                     case R.id.actionNotificationItem:
-                        ShowNotificationTab();
+                        ShowNotificationTab(); break;
+                    case R.id.login:
+                        ShowAuthForm(); break;
                 }
 
                 return true;
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data == null) {return;}
+        mail.setText(data.getStringExtra("email_tag"));
+    }
+
+    private void ShowAuthForm() {
+        Intent intent = new Intent(MainActivity.this, EmailPasswordActivity.class);
+        startActivityForResult(intent, 1);
     }
 
     private void ShowNotificationTab (){
@@ -117,6 +138,7 @@ public class MainActivity extends AppCompatActivity{
     private RemindDTO getData() {
         RestTemplate template = new RestTemplate();
         template.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+
         return template.getForObject(Constants.URL.GET_REMINDERS, RemindDTO.class);
     }
 

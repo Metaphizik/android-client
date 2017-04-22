@@ -8,13 +8,8 @@
         android:orderInCategory="0"/>
 
     <item
-        android:title="@string/search_title"
-        android:icon="@mipmap/ic_launcher"
-        android:orderInCategory="1"/>
-
-    <item
-        android:title="@string/search_title"
-        android:icon="@mipmap/ic_magnify_grey600_36dp"
+        android:id="@+id/login"
+        android:title="Вход"
         android:orderInCategory="1"/>
 
 </menu>
