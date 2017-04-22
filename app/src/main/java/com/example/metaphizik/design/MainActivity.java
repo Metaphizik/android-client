@@ -6,22 +6,21 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-
 import com.example.metaphizik.design.adapter.TabsFragmentAdapter;
 import com.example.metaphizik.design.dto.RemindDTO;
-
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     private static final int MAIN_LAYOUT = R.layout.activity_main;
     private Toolbar toolbar;
@@ -38,7 +37,12 @@ public class MainActivity extends AppCompatActivity {
         initToolbar();
         initNavigationView();
         initTabs();
-    }
+
+        //потяни-обновлялка
+
+
+
+        }
 
     private void initToolbar() {
         toolbar = (Toolbar)findViewById(R.id.toolbar);
@@ -64,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //идентификация навигационной шторки,
-    //создание слушателя нажатий, который нчигео не выводит,
+    //создание слушателя нажатий, который переходит на первую табу,
     //исоздание тогла
     private void initNavigationView() {
         drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
@@ -96,10 +100,9 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected RemindDTO doInBackground(Void... params) {
-            RestTemplate template = new RestTemplate();
-            template.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
-            return template.getForObject(Constants.URL.GET_REMINDERS, RemindDTO.class);
+
+            return getData();
         }
 
         @Override
@@ -110,4 +113,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+    private RemindDTO getData() {
+        RestTemplate template = new RestTemplate();
+        template.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+        return template.getForObject(Constants.URL.GET_REMINDERS, RemindDTO.class);
+    }
+
+
 }

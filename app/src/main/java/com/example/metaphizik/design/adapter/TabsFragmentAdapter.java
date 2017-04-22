@@ -52,10 +52,9 @@ public class TabsFragmentAdapter extends FragmentPagerAdapter{
         historyFragment = HistoryFragment.getInstance(context, data);
 
         tabs = new HashMap<>();
-        tabs.put(0, historyFragment);
-        tabs.put(1, IdeasFragment.getInstance(context));
+        tabs.put(0, IdeasFragment.getInstance(context));
+        tabs.put(1, historyFragment);
         tabs.put(2, TodoFragment.getInstance(context));
-        tabs.put(3, BirthdaysFragment.getInstance(context));
     }
 
     public void setDate(List<RemindDTO> data) {

@@ -2,13 +2,17 @@ package com.example.metaphizik.design.fragments;
 
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.metaphizik.design.R;
 import com.example.metaphizik.design.adapter.RemindListAdapter;
@@ -33,7 +37,7 @@ public class HistoryFragment extends AbstractTabFragment{
 
             return fragment;
         }
-
+    private SwipeRefreshLayout mSwipeRefreshLayout;
         @Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -44,8 +48,24 @@ public class HistoryFragment extends AbstractTabFragment{
             adapter = new RemindListAdapter(data);
             rv.setAdapter(adapter);
 
-            return view;
+            View view2 = inflater.inflate(R.layout.swipe_layout, container, false);
+            mSwipeRefreshLayout = (SwipeRefreshLayout) view2.findViewById(R.id.swiperefresh);
+
+            // Set the color scheme of the SwipeRefreshLayout by providing 4 color resource ids
+            mSwipeRefreshLayout.setColorSchemeColors(Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW);
+
+            mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+
+                @Override public void onRefresh() {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override public void run() {
+                            mSwipeRefreshLayout.setRefreshing(false);
+                        }
+                    }, 5000);
+                }});
+                    return view2;
         }
+
 
     private List<RemindDTO> createMockRemindListData() {                //заглушка даты. ибо нет сервера откуда она прийдет(дата)
         List<RemindDTO> data = new ArrayList<>();
