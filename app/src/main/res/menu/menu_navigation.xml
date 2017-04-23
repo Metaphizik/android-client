@@ -9,7 +9,7 @@
 
     <item
         android:id="@+id/login"
-        android:title="Вход"
+        android:title="@string/enterMenuItem"
         android:orderInCategory="1"/>
 
 </menu>
