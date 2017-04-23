@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.metaphizik.design.adapter.TabsFragmentAdapter;
 import com.example.metaphizik.design.auth.EmailPasswordActivity;
@@ -23,6 +25,7 @@ import com.example.metaphizik.design.dto.RemindDTO;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +50,14 @@ public class MainActivity extends AppCompatActivity{
         initNavigationView();
         initTabs();
 }
+    public void onBackPressed() {
+        DrawerLayout layout = (DrawerLayout)findViewById(R.id.drawerLayout);
+        if (layout.isDrawerOpen(GravityCompat.START)) {
+            layout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
 
     private void initToolbar() {
         toolbar = (Toolbar)findViewById(R.id.toolbar);
@@ -65,7 +76,7 @@ public class MainActivity extends AppCompatActivity{
         adapter = new TabsFragmentAdapter(this, getSupportFragmentManager());
         viewPager.setAdapter(adapter);
 
-        //new RemindMeTask().execute();
+        new RemindMeTask().execute();
 
         TabLayout tabLayout = (TabLayout)findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
@@ -121,26 +132,45 @@ public class MainActivity extends AppCompatActivity{
 
         @Override
         protected RemindDTO doInBackground(Void... params) {
+            RestTemplate template = new RestTemplate();
+            template.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
-
-            return getData();
+            RemindDTO remindDTO;
+            try {remindDTO = template.getForObject(Constants.URL.GET_REMINDERS, RemindDTO.class);}
+            catch (Exception e){
+                remindDTO = new RemindDTO("+++{");
+            }
+            return remindDTO;
         }
 
         @Override
         protected void onPostExecute(RemindDTO remindDTO) {
-            List<RemindDTO> data = new ArrayList<>();
-            data.add(remindDTO);
-            adapter.setDate(data);
+            if (remindDTO.getTitle() == "+++{")
+                Toast.makeText(MainActivity.this,
+                        "Подключение к инернету отсутствует",
+                        Toast.LENGTH_LONG).show();
+            else {
+                List<RemindDTO> data = new ArrayList<>();
+                data.add(remindDTO);
+                adapter.setDate(data);}
         }
 
     }
 
-    private RemindDTO getData() {
+    /*private RemindDTO getData() {
         RestTemplate template = new RestTemplate();
         template.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
-        return template.getForObject(Constants.URL.GET_REMINDERS, RemindDTO.class);
-    }
+        RemindDTO remindDTO;
+        try {remindDTO = template.getForObject(Constants.URL.GET_REMINDERS, RemindDTO.class);}
+        catch (Exception e){
+            Toast.makeText(MainActivity.this,
+                    "Подключение к инернету отсутствует",
+                    Toast.LENGTH_LONG).show();
+            remindDTO = new RemindDTO(" ");
+        }
+        return remindDTO;
+    }*/
 
 
 }
