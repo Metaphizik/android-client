@@ -19,6 +19,7 @@
         </activity>
         <activity android:name=".auth.BaseActivity"></activity>
         <activity android:name=".auth.EmailPasswordActivity"></activity>
+        <activity android:name=".chat.ChatActivity"></activity>
     </application>
 
 </manifest>

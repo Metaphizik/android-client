@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.metaphizik.design.adapter.TabsFragmentAdapter;
 import com.example.metaphizik.design.auth.EmailPasswordActivity;
+import com.example.metaphizik.design.chat.ChatActivity;
 import com.example.metaphizik.design.dto.RemindDTO;
 
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -111,13 +112,17 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (data == null) {return;}
-        mail.setText(data.getStringExtra("email_tag"));
+        if (data == null) {mail.setText("Your email");}
+        else {
+            mail.setText(data.getStringExtra("email_tag"));
+        }
     }
 
     private void ShowAuthForm() {
-        Intent intent = new Intent(MainActivity.this, EmailPasswordActivity.class);
-        startActivityForResult(intent, 1);
+        /*Intent intent = new Intent(MainActivity.this, EmailPasswordActivity.class);
+        startActivityForResult(intent, 1);*/
+        Intent intent = new Intent(MainActivity.this, ChatActivity.class);
+        startActivity(intent);
     }
 
     private void ShowNotificationTab (){
