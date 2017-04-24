@@ -19,12 +19,11 @@
         android:id="@+id/iTime"/>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="31dp"
-        android:id="@+id/iMessage"/>
+        android:id="@+id/iMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="47dp"
+        android:layout_below="@+id/iTime"
+        android:layout_toRightOf="@+id/iUser"
+        android:layout_toEndOf="@+id/iUser" />
 </RelativeLayout>

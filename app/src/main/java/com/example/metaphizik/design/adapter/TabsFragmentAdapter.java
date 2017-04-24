@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.example.metaphizik.design.dto.RemindDTO;
 import com.example.metaphizik.design.fragments.AbstractTabFragment;
-import com.example.metaphizik.design.fragments.BirthdaysFragment;
 import com.example.metaphizik.design.fragments.HistoryFragment;
 import com.example.metaphizik.design.fragments.IdeasFragment;
 import com.example.metaphizik.design.fragments.TodoFragment;

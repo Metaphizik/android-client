@@ -103,6 +103,8 @@ public class MainActivity extends AppCompatActivity{
                         ShowNotificationTab(); break;
                     case R.id.login:
                         ShowAuthForm(); break;
+                    case R.id.chat:
+                        ShowChatForm(); break;
                 }
 
                 return true;
@@ -118,11 +120,15 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
-    private void ShowAuthForm() {
-        /*Intent intent = new Intent(MainActivity.this, EmailPasswordActivity.class);
-        startActivityForResult(intent, 1);*/
+    private void ShowChatForm() {
         Intent intent = new Intent(MainActivity.this, ChatActivity.class);
         startActivity(intent);
+    }
+
+    private void ShowAuthForm() {
+        Intent intent = new Intent(MainActivity.this, EmailPasswordActivity.class);
+        startActivityForResult(intent, 1);
+
     }
 
     private void ShowNotificationTab (){

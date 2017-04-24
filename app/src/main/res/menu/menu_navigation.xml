@@ -9,7 +9,12 @@
 
     <item
         android:id="@+id/login"
-        android:title="@string/enterMenuItem"
+        android:title="@string/account_managment_navig_item"
+        android:orderInCategory="1"/>
+
+    <item
+        android:id="@+id/chat"
+        android:title="@string/chat_navig_item"
         android:orderInCategory="1"/>
 
 </menu>

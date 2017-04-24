@@ -9,7 +9,7 @@
     <string name="tab_item_todo"> Сделать</string>
     <string name="tab_item_birthdays"> Дни рождения</string>
 
-    <string name="enterMenuItem">Управление учетной записью</string>
+    <string name="account_managment_navig_item">Управление учетной записью</string>
 
     <!-- Auth-->
     <string name="label_emailpassword">Email/Password Authentication</string>
@@ -48,5 +48,8 @@
     <string name="id_fmt">User ID: %s</string>
     <string name="email_fmt">Email: %s</string>
     <string name="mail">TextView</string>
+
+    <string name="chat_navig_item">Чат</string>
+    <string name="send_message">Отправить</string>
 
 </resources>

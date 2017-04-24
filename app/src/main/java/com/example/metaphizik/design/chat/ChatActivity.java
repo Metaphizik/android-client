@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
 import android.view.Menu;
@@ -25,7 +26,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class ChatActivity extends AppCompatActivity {
+public class ChatActivity extends AppCompatActivity{
 
     private static int SIGN_IN_REQUEST_CODE = 1;
     private FirebaseListAdapter<Message> adapter;
@@ -33,7 +34,7 @@ public class ChatActivity extends AppCompatActivity {
     private Button send_message;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
@@ -42,10 +43,10 @@ public class ChatActivity extends AppCompatActivity {
         send_message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText input = (EditText)findViewById(R.id.editText);
+                EditText input = (EditText)findViewById(R.id.input_field);
                 FirebaseDatabase.getInstance().getReference().push()
-                        .setValue(new Message(input.getText().toString(),
-                                FirebaseAuth.getInstance().getCurrentUser().getEmail()));
+                        .setValue(new Message(FirebaseAuth.getInstance().getCurrentUser().getEmail(),
+                                input.getText().toString()));
                 input.setText("");
             }
         });
@@ -60,7 +61,14 @@ public class ChatActivity extends AppCompatActivity {
 
     private void displayChat() {
         ListView listMessages = (ListView)findViewById(R.id.listView);
+
         adapter = new FirebaseListAdapter<Message>(this, Message.class, R.layout.chat_item, FirebaseDatabase.getInstance().getReference()) {
+            //Делаем самые новые соббщение сверху
+            @Override
+            public Message getItem(int position) {
+                return super.getItem(getCount() - position - 1);
+            }
+
             @Override
             protected void populateView(View v, Message model, int position) {
 
