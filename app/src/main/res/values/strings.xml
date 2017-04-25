@@ -9,7 +9,8 @@
     <string name="tab_item_todo"> Сделать</string>
     <string name="tab_item_birthdays"> Дни рождения</string>
 
-    <string name="account_managment_navig_item">Управление учетной записью</string>
+    <string name="login">Вход</string>
+    <string name="logout">Сменить пользователя</string>
 
     <!-- Auth-->
     <string name="label_emailpassword">Email/Password Authentication</string>

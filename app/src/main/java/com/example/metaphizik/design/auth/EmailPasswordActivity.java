@@ -85,7 +85,8 @@ public class EmailPasswordActivity extends BaseActivity implements
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         //FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(null);
+        //updateUI(null);
+        signOut();
     }
     // [END on_start_check_user]
 
